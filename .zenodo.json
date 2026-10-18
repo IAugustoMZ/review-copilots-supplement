@@ -1,0 +1,14 @@
+{
+  "title": "Supplementary materials for: Generative AI Copilots in Chemical, Process, and Manufacturing Engineering: A Structured Review of Validation Practices and the Case for Shared, Domain-Specific Benchmarks",
+  "upload_type": "dataset",
+  "description": "Corpus (158 records), screening criteria, search logs, pipeline source code and reference-verification scripts accompanying a structured (SALSA) review of generative-AI copilots in chemical, process and manufacturing engineering. Abstracts and full texts are not redistributed; records are identified by DOI.",
+  "creators": [
+    {"name": "Zelioli, Icaro Augusto Maccari", "orcid": "0009-0005-1542-9699", "affiliation": "University of Campinas"},
+    {"name": "Spogis, Nicolas", "orcid": "0000-0003-2094-5178", "affiliation": "AI4Tech; University of Campinas"},
+    {"name": "Mariano, Adriano Pinto", "orcid": "0000-0003-2934-992X", "affiliation": "University of Campinas"}
+  ],
+  "license": "cc-by-4.0",
+  "access_right": "open",
+  "keywords": ["generative AI", "industrial copilots", "large language models", "structured review", "benchmarks", "process engineering"],
+  "language": "eng"
+}

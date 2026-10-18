@@ -1,0 +1,226 @@
+# Phase 10b screening criteria, version 2 (prompt_version = "screen-v2").
+#
+# WHY THIS FILE EXISTS
+# --------------------
+# Version 1 (screening_criteria.yaml, prompt_version "screen-v1") screened all
+# 7,850 D1 records. The 500-record human validation sample (Phase 11) then
+# measured it: design-weighted precision of the AI include is 19.0%. Four of
+# every five records the screener wanted to include, the reviewer rejected.
+#
+# The diagnosis is NOT that the screener judged badly. Its AUC on the ordinal
+# (label, confidence) score is 0.828 -- it orders records well. It cut them in
+# the wrong place, because v1's written criterion is genuinely wider than the
+# criterion the reviewer applied. Two specific leaks account for nearly all of
+# the 162 observed false positives:
+#
+#   LEAK 1 -- the comparison-context clause. v1's `scope` admitted "general-
+#   industrial-copilot / general-agentic-AI literature usable as RQ2/RQ3
+#   comparison context". Read literally by a screener, that admits the whole
+#   LLM-methods literature: "A Survey of Large Language Models", "LLaMA",
+#   "Gorilla", "Chronos", "Dynamic Planning with a LLM", "Can LLMs Express
+#   Their Uncertainty?". None of these assist anyone with an industrial task.
+#
+#   LEAK 2 -- "industrial or engineering task" read as any engineering. v1's
+#   first inclusion criterion says "an industrial or engineering task"; the
+#   scope says "chemical, process, or manufacturing". The screener followed the
+#   wider phrase and admitted geomatics, geotechnics, photonics/directional-
+#   coupler design, structural engineering, AUV docking, and drone inspection.
+#
+# The reviewer's applied criterion, recovered from the free-text rationales
+# they typed on all 500 records, is a CONJUNCTION of two gates:
+#   - 247 exclusions: "not related to chemical engineering"        (DOMAIN gate)
+#   - 204 exclusions: "not related to gen ai based industrial copilots" (ARTIFACT gate)
+#   -  33 inclusions: "seems related to a gen ai based industrial copilot"
+#   -  14 inclusions: "related to LLMs and chemical engineering"
+#   -   1 inclusion:  "related to gen ai industrial copilot benchmark"
+#
+# v2 encodes that conjunction. Both gates must pass. See
+# docs/PHASE10B_RESCREEN.md for the full design and D-41..D-44 in
+# docs/METHODOLOGY_DECISION_JOURNAL.md.
+#
+# WHAT v2 DOES NOT DO
+# -------------------
+# v2 is narrower than v1. It therefore targets precision and CANNOT by itself
+# recover v1's false negatives -- a narrower criterion never re-admits what a
+# wider one already rejected on topic. Recall is addressed separately, by
+# re-screening the borderline-exclude stratum (where v1's false negatives
+# actually concentrate: 9 of the 10 observed sit in medium-confidence exclude
+# or low-confidence uncertain) and by a probability sample of the high-
+# confidence excludes.
+
+version: "screen-v2"
+supersedes: "screen-v1"
+
+research_questions:
+  RQ1: "Evolution from conversational AI to GenAI-based industrial copilots; enabling technologies."
+  RQ2: "Reference architecture of industrial copilots (components, layers, interfaces)."
+  RQ3: "Application domains of industrial copilots in chemical, process, and manufacturing engineering contexts."
+  RQ4: "Validation, deployment, and future research challenges for industrial copilots."
+
+# ---------------------------------------------------------------------------
+# The two gates. A record is INCLUDED only if BOTH pass. This conjunction is
+# the whole substance of the v1 -> v2 change.
+# ---------------------------------------------------------------------------
+
+gate_artifact:
+  question: >
+    Does the record describe, evaluate, survey, or explicitly propose a
+    GENERATIVE-AI system (LLM, foundation model, VLM, or agentic/multi-agent
+    system built on one) that ASSISTS A HUMAN OR AUTONOMOUSLY PERFORMS a work
+    task -- i.e. a copilot, assistant, agent, or decision-support system?
+  passes_when:
+    - There is a system, framework, tool, agent, or pipeline, not merely a
+      discussion of a technology's promise.
+    - Its core is generative -- an LLM/foundation model/VLM. Classical ML,
+      statistical models, or non-generative deep learning alone do NOT pass.
+    - >-
+      It does work: answers, generates, plans, diagnoses, controls, reports.
+  fails_when:
+    - The paper studies the model itself rather than its use -- pretraining,
+      architecture, alignment, reasoning benchmarks, hallucination measurement,
+      uncertainty calibration, agent-security, or a general LLM/agent survey
+      with no work-task setting. This is LEAK 1 and it must now fail.
+    - "The AI is not generative (LEAK 3 from v1, unchanged: `wrong_technology`)."
+
+gate_domain:
+  question: >
+    Is the work task situated in CHEMICAL, PROCESS, or MANUFACTURING
+    engineering -- the design, simulation, operation, control, maintenance, or
+    safety of a physical production process, plant, or shopfloor?
+  passes_when:
+    - Chemical/petrochemical/pharmaceutical/materials production, unit
+      operations, reaction and separation processes, flow chemistry at process
+      scale.
+    - >-
+      Process systems engineering: simulation, optimisation, process control
+      (incl. MPC/RL policy explanation), scheduling, digital twins of plants.
+    - >-
+      Process safety and risk: HAZOP, P&ID reasoning, incident/accident
+      analysis, hazard identification, regulatory compliance for plants.
+    - >-
+      Discrete and continuous manufacturing: shopfloor operations, production
+      planning, industrial fault detection and diagnosis, predictive
+      maintenance, industrial quality control, Industry 4.0/5.0 production
+      systems.
+    - >-
+      Process-adjacent utilities operated as industrial processes: water and
+      wastewater treatment, energy/utility plant operation, industrial
+      emissions and environmental process control.
+  fails_when:
+    - >-
+      Another engineering discipline with no process/manufacturing production
+      setting: civil/construction, geotechnics, geomatics/surveying,
+      structural, photonics/EDA/hardware design, robotics or autonomous
+      vehicles outside a plant, aerospace, software engineering. This is
+      LEAK 2 and it must now fail.
+    - >-
+      Chemistry as SCIENCE rather than as PRODUCTION: molecular property
+      prediction, reaction outcome prediction, drug discovery, materials
+      discovery, self-driving discovery labs, chemistry exam benchmarks.
+      Note the boundary: a self-driving lab doing discovery fails; an LLM
+      operating a pilot plant or a production reactor passes.
+    - Education, workforce training, or curriculum papers whose subject is the
+      learner rather than the process -- UNLESS the artefact is itself an
+      operational plant/maintenance assistant that also happens to train.
+
+# ---------------------------------------------------------------------------
+# Standing carve-out, carried over from v1 unchanged and still deliberate.
+# ---------------------------------------------------------------------------
+benchmark_carve_out:
+  # The thesis this review supports proposes constructing a benchmark generator
+  # for training industrial copilots, so the review must be able to state --
+  # and a reader must be able to falsify -- whether such generators already
+  # exist. Benchmark/evaluation/training-data work is therefore part of the
+  # object of study, not background. It passes gate_artifact automatically, but
+  # it must still pass gate_domain.
+  rule: >
+    A record that constructs, generates, or evaluates benchmarks, task suites,
+    evaluation environments, or training/fine-tuning data for LLM/agentic
+    systems passes gate_artifact. It is INCLUDED if and only if gate_domain
+    also passes (industrial/process/manufacturing setting). Otherwise it is
+    excluded with reason `benchmark_other_domain`, which keeps it countable as
+    the comparison class for the review's absence claim.
+
+# ---------------------------------------------------------------------------
+# Decision rules.
+# ---------------------------------------------------------------------------
+decision_rules:
+  include: "Both gates pass."
+  exclude: "Either gate fails. Record which one via exclusion_reason."
+  uncertain: >
+    Reserve for records where the ABSTRACT DOES NOT CONTAIN THE INFORMATION
+    needed to settle a gate -- a missing abstract, or an abstract too vague to
+    tell whether the system is generative or where it is deployed. Do NOT use
+    `uncertain` for records you can settle but find borderline: settle them.
+    Under v1, 240 records were marked uncertain and the human reviewer included
+    only 7% of them; uncertainty was being used as a comfort label.
+
+exclusion_reasons:
+  - off_topic: "Neither gate passes, or the record is not about a GenAI system at all."
+  - context_only: >
+      gate_artifact passes but gate_domain fails because the work is general
+      LLM/agent research or an industrial-copilot-shaped system in another
+      discipline. NEW IN v2. These records are excluded from the core corpus
+      but are retained and countable as RQ2/RQ3 comparison context -- this is
+      where v1's LEAK-1 and LEAK-2 false positives now land, so that narrowing
+      the corpus does not silently destroy the reference-architecture
+      discussion's comparison base.
+  - science_not_process: >
+      gate_artifact passes but the setting is chemistry/materials as discovery
+      science rather than as industrial production. NEW IN v2.
+  - not_original_research: "Editorial, erratum, correction notice, conference front-matter, or similar non-substantive item."
+  - wrong_technology: "The AI system is not generative -- classical ML/statistical/non-generative deep learning only."
+  - benchmark_other_domain: "Benchmark/evaluation/training-data work for LLM/agentic systems outside industrial/process/engineering domains."
+
+# ---------------------------------------------------------------------------
+# Calibration examples, all drawn from records the human reviewer actually
+# adjudicated in Phase 11. These are real record titles with the reviewer's
+# real decision -- not invented illustrations.
+# ---------------------------------------------------------------------------
+calibration:
+  include:
+    - "Large language model agent for user-friendly chemical process simulations"
+    - "Can large language models automate the HAZOP process without human intervention?"
+    - "Knowledge-augmented large language models to support automated HAZOP report generation"
+    - "Generative AI-driven parameter estimation for robust Nonlinear Model Predictive Control (NMPC)"
+    - "Large language model-based multi-objective modeling framework for vacuum gas oil hydrotreating"
+    - "Multi-Agent Large Language Model Frameworks: Unlocking New Possibilities for Optimizing Wastewater Treatment Operation"
+    - "Chat-microreactor: a large-language-model-based assistant for designing continuous flow systems"
+    - "Autonomous Industrial Control using an Agentic Framework with Large Language Models"
+    - "Towards a benchmark dataset for large language models in the context of process automation"
+    - "Traceable Knowledge Graph Reasoning Enables LLM-Assisted Decision Support for Industrial VOCs in the Steel Industry"
+    - "Regulatory and technical gaps for foundation models in chemical process safety"
+  exclude_context_only:
+    - "A Survey of Large Language Models"
+    - "LLaMA: Open and Efficient Foundation Language Models"
+    - "Gorilla: Large Language Model Connected with Massive APIs"
+    - "Dynamic Planning with a LLM"
+    - "Can LLMs Express Their Uncertainty? An Empirical Evaluation of Confidence Elicitation in LLMs"
+    - "Towards A Unified Agent with Foundation Models"
+    - "AgentDID: Trustless Identity Authentication for AI Agents"
+    - "GeoLLM: A specialized large language model framework for intelligent geotechnical design"
+    - "AI-Enhanced Geomatics Engineering: Innovative Solutions and Applications Using ChatGPT"
+    - "An LLM-Orchestrated Agent for Directional-Coupler Design with Self-Consistent Eigenmode and FDTD Validation"
+    - "Role of ChatGPT and Similar Generative Artificial Intelligence (AI) in Construction Industry"
+  exclude_science_not_process:
+    - "Autonomous chemistry: Navigating self-driving labs in chemical and material sciences"
+    - "Augmenting large language models with chemistry tools"
+    - "General-Purpose Models for the Chemical Sciences: LLMs and Beyond"
+    - "Benchmarking AI on Standard Chemistry Exams: LLMs Still Underperform Compared to High School Students"
+    - "Empowering Generalist Material Intelligence with Large Language Models"
+
+# ---------------------------------------------------------------------------
+# Known limits of this criterion, stated so the manuscript can state them.
+# ---------------------------------------------------------------------------
+known_boundary_noise: >
+  The reviewer's own boundary is not perfectly sharp, and v2 cannot be sharper
+  than the target it is fitted to. Observed inconsistencies in the 500
+  adjudicated records: "Automatic Construction Accident Report Analysis Using
+  LLMs" was INCLUDED while "Effectiveness of RAG-based LLMs for generating
+  construction safety information" was EXCLUDED; a maritime-diving accident
+  NLP paper was INCLUDED. Cohen's kappa_max on these marginals is 0.338
+  design-weighted, so a ceiling below 1.0 is structural, not a defect of v2.
+
+screening_decision_policy:
+  ai_may_set_decision_types: ["ai"]
+  never_auto_final: true

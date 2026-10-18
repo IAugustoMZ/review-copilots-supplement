@@ -1,0 +1,249 @@
+# Search configuration: connector settings + the shared GenAI/domain blocks and the
+# CE1-CE14 chemical/process-engineering theme blocks. See
+# docs/TECHNICAL_IMPLEMENTATION_PLAN.md sections 3-4.
+#
+# IMPORTANT scope note: none of Crossref/OpenAlex/Semantic Scholar's free-text
+# search parameters support real Boolean AND/OR/NOT grammar the way Scopus or
+# ScienceDirect do -- they are relevance-ranked bag-of-words search. The
+# genai_block/domain_block/theme_block below are therefore used two ways:
+#   1. concatenated into one relevance-query string sent to each connector
+#      (query_builder.render_query_string), to steer the API's ranking; and
+#   2. enforced client-side as genai AND domain (query_builder.matches_genai_domain)
+#      -- this, not the API's ranking, is what actually decides D0 membership.
+# The theme_block is NOT required for D0 membership (query_builder.matches_family,
+# the strict genai+domain+theme test, exists only for diagnostics/precision
+# reporting). D0 is deliberately a broad discovery pool -- narrowing to what's
+# actually relevant is AI/human screening's job (Phase 10/11), not this filter's.
+# default_rows=200 is OpenAlex's hard per-page ceiling (the binding constraint
+# across connectors); Crossref/Semantic Scholar clamp independently in their own
+# connector modules to their own, different, hard caps.
+
+connectors:
+  contact_email_env: "REVIEW_PIPELINE_CONTACT_EMAIL"
+  semantic_scholar_api_key_env: "SEMANTIC_SCHOLAR_API_KEY"
+  default_rows: 200
+  # Primary temporal scope per CLAUDE.md invariant #3 (2023+; pre-2023 handled
+  # separately for foundational concepts, not via this default filter).
+  from_year: 2023
+
+genai_block:
+  - "large language model"
+  - "LLM"
+  - "generative AI"
+  - "generative artificial intelligence"
+  - "foundation model"
+  - "AI agent"
+  - "LLM agent"
+  - "agentic AI"
+  - "copilot"
+  - "intelligent assistant"
+  - "retrieval augmented generation"
+  - "RAG"
+
+domain_block:
+  - "chemical engineering"
+  - "process engineering"
+  - "process systems engineering"
+  - "PSE"
+  - "CAPE"
+  - "chemical process"
+  - "process industry"
+  - "process industries"
+  - "chemical plant"
+  - "process plant"
+  - "petrochemical"
+  - "refinery"
+  - "bioprocess"
+  - "pharmaceutical manufacturing"
+  # Added 2026-08-30. The review's declared scope is chemical, process AND
+  # manufacturing engineering (CLAUDE.md), but the domain block carried no
+  # general manufacturing term, so the client-side genai AND domain test that
+  # decides D0 membership was narrower than the review itself. Every CE family
+  # is re-run under the widened block as iteration 4; see
+  # docs/SEARCH_AND_SNOWBALLING.md Decision 7.1.
+  - "manufacturing"
+  - "industrial automation"
+  - "smart manufacturing"
+  - "process manufacturing"
+  - "industrial process"
+  - "shop floor"
+  - "plant operations"
+  # Added 2026-08-30 (D-26 revised). The domain block carried no maintenance or
+  # asset-integrity vocabulary, so an LLM/agentic paper about predictive
+  # maintenance of industrial equipment failed the client-side genai AND domain
+  # test that decides D0 membership unless it happened to say "manufacturing".
+  # Maintenance and asset health are RQ3 application domains for industrial
+  # copilots, so this was a scope hole, not a deliberate boundary.
+  - "predictive maintenance"
+  - "condition monitoring"
+  - "prognostics and health management"
+  - "asset integrity"
+  - "industrial equipment"
+  - "rotating machinery"
+  - "fault diagnosis"
+
+families:
+  CE1:
+    theme_label: "Process Systems Engineering"
+    theme_block:
+      - "process systems engineering"
+      - "PSE"
+      - "CAPE"
+  CE2:
+    theme_label: "Process Simulation / Flowsheets"
+    theme_block:
+      - "process simulation"
+      - "flowsheet"
+      - "flowsheeting"
+      - "process simulator"
+  CE3:
+    theme_label: "Process Design / Process Synthesis"
+    theme_block:
+      - "process design"
+      - "process synthesis"
+      - "conceptual design"
+  CE4:
+    theme_label: "Process Optimization / RTO"
+    theme_block:
+      - "process optimization"
+      - "real-time optimization"
+      - "RTO"
+  CE5:
+    theme_label: "Process Control / Operations / MPC"
+    theme_block:
+      - "process control"
+      - "model predictive control"
+      - "MPC"
+      - "plant operations"
+  CE6:
+    theme_label: "Process Safety / HAZOP / FMEA / LOPA / SIS"
+    theme_block:
+      - "process safety"
+      - "HAZOP"
+      - "FMEA"
+      - "LOPA"
+      - "safety instrumented system"
+      - "SIS"
+  CE7:
+    theme_label: "Maintenance / Reliability / PHM in Process Industries"
+    theme_block:
+      - "predictive maintenance"
+      - "reliability engineering"
+      - "prognostics and health management"
+      - "PHM"
+      - "condition monitoring"
+  CE8:
+    theme_label: "Digital Twins in Chemical/Process Industries"
+    theme_block:
+      - "digital twin"
+  CE9:
+    theme_label: "Process Knowledge / P&ID / PFD / SOP / RAG / Knowledge Graphs"
+    theme_block:
+      - "P&ID"
+      - "piping and instrumentation diagram"
+      - "PFD"
+      - "process flow diagram"
+      - "standard operating procedure"
+      - "knowledge graph"
+  CE10:
+    theme_label: "Process Data / Historian / Plant-State Reasoning"
+    theme_block:
+      - "process historian"
+      - "plant data"
+      - "process data analytics"
+      - "plant state"
+  CE11:
+    theme_label: "Physical / Thermodynamic / Mass-and-Energy Consistency"
+    theme_block:
+      - "mass balance"
+      - "energy balance"
+      - "thermodynamic consistency"
+      - "physics-informed"
+  CE12:
+    theme_label: "Reaction Engineering / Bioprocessing"
+    theme_block:
+      - "reaction engineering"
+      - "bioprocessing"
+      - "fermentation"
+      - "catalysis"
+  CE13:
+    theme_label: "Separation / Distillation / Thermodynamics"
+    theme_block:
+      - "distillation"
+      - "separation process"
+      - "thermodynamics"
+  CE14:
+    theme_label: "Sustainability / Process Decision Support"
+    theme_block:
+      - "sustainability"
+      - "process decision support"
+      - "life cycle assessment"
+      - "green chemistry"
+  CE15:
+    theme_label: "Benchmark Datasets / Evaluation Infrastructure for Industrial GenAI"
+    theme_block:
+      - "benchmark dataset"
+      - "evaluation dataset"
+      - "evaluation benchmark"
+      - "synthetic dataset"
+      - "synthetic data generation"
+      - "standardized benchmark"
+      - "reference dataset"
+      - "public dataset"
+  # CE16-CE18 added 2026-08-30, targeting the thesis's own contribution: the
+  # construction of a benchmark generator for training industrial copilots. A
+  # review that argues such a generator does not yet exist has to have searched
+  # for what would refute that claim; CE15 retrieves benchmark *datasets*, these
+  # three retrieve benchmark *generation*, the data that would train on them,
+  # and the environments they would run in. See docs/SEARCH_AND_SNOWBALLING.md
+  # Decision 7.2.
+  CE16:
+    theme_label: "Benchmark Generation / Task Synthesis for Industrial Agents"
+    theme_block:
+      - "benchmark generation"
+      - "benchmark generator"
+      - "automatic benchmark construction"
+      - "task generation"
+      - "scenario generation"
+      - "test case generation"
+      - "procedural generation"
+      - "benchmark suite construction"
+  CE17:
+    theme_label: "Agent Evaluation Environments / Testbeds / Simulators"
+    theme_block:
+      - "evaluation environment"
+      - "simulation environment"
+      - "testbed"
+      - "sandbox environment"
+      - "agent benchmark"
+      - "evaluation harness"
+      - "digital twin"
+      - "virtual commissioning"
+  CE18:
+    theme_label: "Training Data Synthesis / Instruction Tuning for Engineering Agents"
+    theme_block:
+      - "synthetic training data"
+      - "instruction tuning"
+      - "instruction dataset"
+      - "fine-tuning dataset"
+      - "data augmentation"
+      - "self-instruct"
+      - "curriculum learning"
+      - "training corpus"
+  # CE19 added 2026-08-30 (D-26 revised). CE15-CE18 target benchmarks and their
+  # construction; CE19 targets the copilot literature in the maintenance and
+  # asset-health application domain, which the review's RQ3 covers but which no
+  # family named. This is deliberately about copilots applied to maintenance --
+  # NOT about pre-LLM PHM benchmark datasets (C-MAPSS, CWRU, MIMII), which are
+  # out of scope and are structurally excluded by the genai AND domain test.
+  CE19:
+    theme_label: "Copilots and Agents for Maintenance, Diagnostics and Asset Health"
+    theme_block:
+      - "predictive maintenance"
+      - "prognostics and health management"
+      - "remaining useful life"
+      - "condition monitoring"
+      - "fault diagnosis"
+      - "root cause analysis"
+      - "maintenance work order"
+      - "reliability engineering"

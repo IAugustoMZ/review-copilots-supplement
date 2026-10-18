@@ -1,0 +1,29 @@
+cff-version: 1.2.0
+message: "If you use these materials, please cite them as below."
+title: "Supplementary materials for: Generative AI Copilots in Chemical, Process, and Manufacturing Engineering: A Structured Review of Validation Practices and the Case for Shared, Domain-Specific Benchmarks"
+type: dataset
+version: 1.0.0
+license: CC-BY-4.0
+authors:
+  - family-names: Zelioli
+    given-names: Icaro Augusto Maccari
+    orcid: "https://orcid.org/0009-0005-1542-9699"
+    affiliation: "Laboratory of Optimization, Design and Advanced Control, School of Chemical Engineering, University of Campinas, Brazil"
+  - family-names: Spogis
+    given-names: Nicolas
+    orcid: "https://orcid.org/0000-0003-2094-5178"
+    affiliation: "AI4Tech, Campinas, SP, Brazil; School of Chemical Engineering, University of Campinas (UNICAMP), Brazil"
+  - family-names: Mariano
+    given-names: Adriano Pinto
+    orcid: "https://orcid.org/0000-0003-2934-992X"
+    affiliation: "Laboratory of Optimization, Design and Advanced Control, School of Chemical Engineering, University of Campinas, Brazil"
+keywords:
+  - generative AI
+  - industrial copilots
+  - large language models
+  - structured review
+  - benchmarks
+  - chemical engineering
+  - process engineering
+  - manufacturing
+# After publishing on Zenodo, add:  doi: 10.5281/zenodo.XXXXXXX

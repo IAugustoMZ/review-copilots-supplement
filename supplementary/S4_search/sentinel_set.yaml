@@ -1,0 +1,249 @@
+# Known-item / sentinel set (docs/TECHNICAL_IMPLEMENTATION_PLAN.md section 6).
+#
+# This list is hand-curated in spirit but was seeded via a live web-search pass
+# (WebSearch/WebFetch), not from training-knowledge recall -- every entry below
+# was independently found with a resolvable URL, and DOIs/arXiv IDs were
+# spot-checked (10/28, ~35%) by resolving them live against the Crossref and
+# arXiv APIs, all of which matched the reported titles exactly. This is a
+# starting point for the researcher's sign-off, not a substitute for it:
+# `why_known_relevant` reflects what the search found, and entries should be
+# reviewed/edited/removed by a human familiar with the field before this set
+# is treated as authoritative for retrieval debugging.
+#
+# One genuine negative finding worth keeping for calibration: a thorough
+# targeted search found only ONE GenAI/LLM-specific article actually published
+# in Digital Chemical Engineering itself as of this search (2026-08-24) --
+# entry #1 below. That scarcity is itself informative for the manuscript's
+# journal-fit argument, not a search failure.
+
+sentinels:
+  - title: "Large language model agent for user-friendly chemical process simulations"
+    doi: null  # journal DOI not resolved during the search pass; matched via arXiv preprint below and confirmed independently in Phase 3/5 live connector tests
+    venue: "Digital Chemical Engineering"
+    year: 2026
+    ce_theme: "CE2"
+    why_known_relevant: >
+      LLM agent driving AVEVA Process Simulation via MCP. Only GenAI/LLM-specific article
+      found published in Digital Chemical Engineering itself as of this search -- directly
+      on-topic for the target journal. Also on arXiv:2601.11650 (title-verified live).
+
+  - title: "A review and perspective on hybrid modeling methodologies"
+    doi: null
+    venue: "Digital Chemical Engineering"
+    year: 2024
+    ce_theme: "CE1"
+    why_known_relevant: >
+      Borderline calibration item: DCE-journal review on hybrid modeling/digitalization,
+      not GenAI/LLM-specific. Included to test whether adjacent-but-not-quite-on-topic DCE
+      content is correctly retrieved and then correctly excluded at screening.
+
+  - title: "Generative AI and Process Systems Engineering: The Next Frontier"
+    doi: "10.1016/j.compchemeng.2024.108723"
+    venue: "Computers & Chemical Engineering"
+    year: 2024
+    ce_theme: "CE1"
+    why_known_relevant: >
+      Widely-cited PSE-community framing paper on GenAI's role in process systems
+      engineering; DOI resolved live against Crossref during this search. arXiv:2402.10977.
+
+  - title: "Leveraging Generative AI and Large Language Model for Process Systems Engineering: A State-of-the-Art Review"
+    doi: "10.1007/s11814-025-00524-y"
+    venue: "Korean Journal of Chemical Engineering"
+    year: 2025
+    ce_theme: "CE1"
+    why_known_relevant: >
+      State-of-the-art review paper directly on this manuscript's topic; DOI resolved live
+      against Crossref during this search.
+
+  - title: "Multi-agent systems for chemical engineering: A review and perspective"
+    doi: null
+    venue: "Current Opinion in Chemical Engineering"
+    year: 2025
+    ce_theme: "CE1"
+    why_known_relevant: >
+      Review of multi-agent systems in chemical engineering, directly overlapping RQ1/RQ2.
+      arXiv:2508.07880 (title-verified live).
+
+  - title: "The potential and challenges of large language model agent systems in chemical process simulation: from automated modeling to intelligent design"
+    doi: "10.1007/s11705-025-2587-5"
+    venue: "Frontiers of Chemical Science and Engineering"
+    year: 2025
+    ce_theme: "CE2"
+    why_known_relevant: >
+      Review specifically on LLM agent systems in chemical process simulation; DOI
+      resolved live against Crossref during this search.
+
+  - title: "Toward autocorrection of chemical process flowsheets using large language models"
+    doi: null
+    venue: null
+    year: 2023
+    ce_theme: "CE3"
+    why_known_relevant: >
+      Early (2023) generative error-correction for process flowsheets, foundational for
+      RQ1's evolution narrative. arXiv:2312.02873.
+
+  - title: "Text-to-flowsheet: an LLM-assisted pipeline for expert-level digitization and automated simulation of chemical processes"
+    doi: null
+    venue: "Digital Discovery"
+    year: 2026
+    ce_theme: "CE3"
+    why_known_relevant: "LLM-assisted pipeline for flowsheet digitization and simulation -- direct CE3/CE2 overlap."
+
+  - title: "BatGPT-Chem: A Foundation Large Model for Chemical Engineering"
+    doi: null
+    venue: null
+    year: 2025
+    ce_theme: "CE12"
+    why_known_relevant: "Domain foundation model for retrosynthesis/molecule design/yield prediction; tests RQ1 foundation-model coverage."
+
+  - title: "LLM-Powered Copilot for Aspen Plus: Enabling Human–AI Collaborative Process Design"
+    doi: "10.1021/acs.iecr.6c00963"
+    venue: "Industrial & Engineering Chemistry Research"
+    year: 2026
+    ce_theme: "CE2"
+    why_known_relevant: >
+      Directly names itself an "industrial copilot" for a real process simulator (Aspen
+      Plus); DOI resolved live against Crossref during this search -- a core exemplar
+      for this manuscript's central topic.
+
+  - title: "Reasoning-agent-driven process simulation, optimization, carbon accounting and decarbonization of distillation"
+    doi: "10.1038/s44172-025-00583-3"
+    venue: "Communications Engineering"
+    year: 2025
+    ce_theme: "CE2"
+    why_known_relevant: >
+      Reasoning agent autonomously driving Aspen Plus for distillation optimization; DOI
+      resolved live against Crossref during this search.
+
+  - title: "From Text to Simulation: A Multi-Agent LLM Workflow for Automated Chemical Process Design"
+    doi: null
+    venue: "Proceedings of the AAAI Conference on Artificial Intelligence"
+    year: 2026
+    ce_theme: "CE3"
+    why_known_relevant: "Multi-agent LLM workflow for automated process design; arXiv:2601.06776."
+
+  - title: "Sketch2Simulation: Automating Flowsheet Generation via Multi Agent Large Language Models"
+    doi: null
+    venue: null
+    year: 2026
+    ce_theme: "CE3"
+    why_known_relevant: >
+      Multi-agent LLM converting process sketches into executable Aspen HYSYS models;
+      arXiv:2603.24629 (title-verified live).
+
+  - title: "Can large language models automate the HAZOP process without human intervention?"
+    doi: null
+    venue: "Journal of Loss Prevention in the Process Industries"
+    year: 2025
+    ce_theme: "CE6"
+    why_known_relevant: "Directly tests LLM automation of HAZOP -- core CE6 process-safety exemplar."
+
+  - title: "Can Large Language Models assist in Hazard Analysis?"
+    doi: null
+    venue: null
+    year: 2023
+    ce_theme: "CE6"
+    why_known_relevant: "Early (2023) foundational study on LLM-assisted hazard identification; arXiv:2303.15473."
+
+  - title: "Safety analysis in the era of large language models: A case study of STPA using ChatGPT"
+    doi: null
+    venue: null
+    year: 2025
+    ce_theme: "CE6"
+    why_known_relevant: "LLM-based safety analysis case study (STPA); CE6 process-safety exemplar."
+
+  - title: "AI-driven FMEA: integration of large language models for faster and more accurate risk analysis"
+    doi: null
+    venue: "Design Science"
+    year: 2025
+    ce_theme: "CE6"
+    why_known_relevant: "LLM-integrated FMEA methodology; core CE6 process-safety exemplar."
+
+  - title: "Toward automatic generation of control structures for process flow diagrams with large language models"
+    doi: null
+    venue: null
+    year: 2022
+    ce_theme: "CE5"
+    why_known_relevant: "Early LLM application to process control-structure generation; tests RQ1 temporal-scope boundary handling (pre-2023)."
+
+  - title: "LLM-guided chemical process optimization with a multi-agent approach"
+    doi: "10.1088/2632-2153/ae2382"
+    venue: "Machine Learning: Science and Technology"
+    year: 2026
+    ce_theme: "CE4"
+    why_known_relevant: >
+      AutoGen-based multi-agent system guiding process optimization; DOI resolved live
+      against Crossref during this search.
+
+  - title: "FaultExplainer: Leveraging large language models for interpretable fault detection and diagnosis"
+    doi: null
+    venue: "Computers & Chemical Engineering"
+    year: 2025
+    ce_theme: "CE7"
+    why_known_relevant: "LLM-based interpretable fault detection/diagnosis; core CE7 exemplar."
+
+  - title: "Large Language Model-Augmented Machine Learning For Intelligent Fault Diagnosis in Process Systems"
+    doi: null
+    venue: null
+    year: 2025
+    ce_theme: "CE7"
+    why_known_relevant: "LLM-augmented fault diagnosis with real process-industry case studies (pyrolysis reactor, Tennessee Eastman, LNG demethanizer)."
+
+  - title: "A Trustworthy Industrial Fault Diagnosis Architecture Integrating Probabilistic Models and Large Language Models"
+    doi: null
+    venue: null
+    year: 2025
+    ce_theme: "CE7"
+    why_known_relevant: "Trustworthiness-focused LLM fault-diagnosis architecture; tests RQ4 validation/deployment coverage."
+
+  - title: "A knowledge graph framework for digital twins of chemical processes"
+    doi: null
+    venue: "Nature Chemical Engineering"
+    year: 2026
+    ce_theme: "CE8"
+    why_known_relevant: "Knowledge-graph + LLM digital twin framework for chemical processes; core CE8/CE9 exemplar."
+
+  - title: "Efficient generative digital twin modeling for chemical process operation via autoregressive training strategy"
+    doi: null
+    venue: "Computers & Chemical Engineering"
+    year: 2026
+    ce_theme: "CE8"
+    why_known_relevant: "Generative modeling applied directly to digital twins of chemical process operation."
+
+  - title: "Improving process systems engineering with specialized multi-agent large language models"
+    doi: null
+    venue: null
+    year: 2026
+    ce_theme: "CE1"
+    why_known_relevant: "Specialized multi-agent LLM system for PSE tasks; RQ2 reference-architecture exemplar."
+
+  - title: "Designing an LLM-Based Copilot for Manufacturing Equipment Selection"
+    doi: null
+    venue: "Advanced Engineering Informatics"
+    year: 2025
+    ce_theme: null
+    why_known_relevant: >
+      Manufacturing (not chemical-specific) LLM copilot for equipment selection; tests
+      whether the pipeline correctly retrieves general-industrial-copilot literature for
+      RQ2/RQ3 comparison purposes without conflating it with the CE-specific core.
+      arXiv:2412.13774.
+
+  - title: "SmartPilot: A Multiagent CoPilot for Adaptive and Intelligent Manufacturing"
+    doi: null
+    venue: null
+    year: 2025
+    ce_theme: null
+    why_known_relevant: >
+      Named "copilot," multiagent, manufacturing-domain -- general-industrial-copilot
+      exemplar for RQ2/RQ3 comparison, same rationale as the equipment-selection entry
+      above. arXiv:2505.06492.
+
+  - title: "Foundation-Model-Based Agents in Industrial Automation: Purposes, Capabilities, and Open Challenges"
+    doi: null
+    venue: null
+    year: 2026
+    ce_theme: null
+    why_known_relevant: >
+      Survey of foundation-model agents in industrial automation (TRL levels,
+      latency/safety constraints) -- directly relevant to RQ4 (validation, deployment,
+      future challenges). arXiv:2605.02592 (title-verified live).

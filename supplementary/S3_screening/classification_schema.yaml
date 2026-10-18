@@ -1,0 +1,93 @@
+# The 6-dimensional classification schema for included (D1, decision='include')
+# records. Mirrors the `classification:` block in
+# review_paper/draft_sections/config/review_config.yaml (the project's overall
+# single source of truth for review methodology) -- kept as a standalone copy
+# here because review_pipeline's config loader only resolves paths under this
+# directory (src/common/config.py). Edit both together if the schema changes.
+#
+# multi_value: true  -> a record can carry more than one category in this
+#                        dimension, each tagged high/medium/low relevance by
+#                        the reviewer (src/validation/dimension_classification.py).
+# multi_value: false -> exactly one category, no relevance level (evidence_type).
+
+dimensions:
+  domain:
+    multi_value: true
+    categories:
+      - chemical_engineering
+      - process_systems_engineering
+      - manufacturing
+      - industrial_operations
+      - maintenance
+      - safety
+      - industrial_decision_support
+
+  technology:
+    multi_value: true
+    categories:
+      - llm
+      - rag
+      - tool_use
+      - function_calling
+      - agents
+      - multi_agent
+      - memory
+      - digital_twin
+      - simulation
+      - optimization
+      - monitoring
+
+  application:
+    multi_value: true
+    categories:
+      - documentation
+      - data_analysis
+      - operations
+      - troubleshooting
+      - maintenance
+      - reliability
+      - engineering_design
+      - simulation
+      - optimization
+      - safety
+      - compliance
+      - training
+      - knowledge_transfer
+
+  architectural_role:
+    multi_value: true
+    categories:
+      - user_interaction
+      - orchestration
+      - knowledge_retrieval
+      - data_access
+      - computational_tools
+      - simulation
+      - validation
+      - governance
+      - monitoring
+      - auditability
+
+  validation_focus:
+    multi_value: true
+    categories:
+      - factual_reliability
+      - numerical_consistency
+      - physical_consistency
+      - contextual_validity
+      - human_in_loop
+      - benchmarking
+      - cybersecurity
+      - governance
+      - accountability
+
+  evidence_type:
+    multi_value: false
+    categories:
+      - conceptual_discussion
+      - review
+      - framework_proposal
+      - prototype
+      - case_study
+      - benchmark
+      - empirical_evaluation

@@ -1,0 +1,53 @@
+[project]
+name = "review-pipeline"
+version = "0.1.0"
+description = "Reproducible search, classification, and review pipeline for the GenAI industrial-copilots literature review (Digital Chemical Engineering submission)."
+requires-python = ">=3.11"
+readme = "README.md"
+license = { text = "Proprietary" }
+dependencies = [
+    "httpx (>=0.27,<1.0)",
+    "tenacity (>=8.2,<10.0)",
+    "pydantic (>=2.6,<3.0)",
+    "sqlalchemy (>=2.0,<3.0)",
+    "typer (>=0.12,<1.0)",
+    "rich (>=13.7,<14.0)",
+    "rapidfuzz (>=3.6,<4.0)",
+    "anthropic (>=0.40,<1.0)",
+    "pandas (>=2.2,<3.0)",
+    "matplotlib (>=3.8,<4.0)",
+    "pyyaml (>=6.0,<7.0)",
+    "python-slugify (>=8.0,<9.0)",
+    "scikit-learn (>=1.4,<2.0)",
+    "python-ulid (>=2.2,<3.0)",
+    "pypdf (>=4.0,<6.0)",
+    "azure-storage-blob (>=12.30.0,<13.0.0)",
+    "python-dotenv (>=1.2.3,<2.0.0)",
+    "numpy (>=1.26,<3.0)",
+    "torch (>=2.2,<3.0)",
+    "sentence-transformers (>=3.0,<7.0)",
+]
+
+[project.scripts]
+review-cli = "review_pipeline.src.cli.app:app"
+
+[tool.poetry]
+packages = [{ include = "review_pipeline" }]
+
+[tool.poetry.group.dev.dependencies]
+pytest = ">=8.0,<9.0"
+pytest-mock = ">=3.12,<4.0"
+respx = ">=0.21,<1.0"
+ruff = ">=0.4,<1.0"
+mypy = ">=1.9,<2.0"
+
+[build-system]
+requires = ["poetry-core>=1.9.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

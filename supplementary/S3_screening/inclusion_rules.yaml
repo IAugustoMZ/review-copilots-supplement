@@ -1,0 +1,37 @@
+# Phase 9 eligibility rules (D0 -> D1). D0 is "everything found" (already
+# always true at insert time). D1 is the mechanical, non-topical filter that
+# decides which D0 records are even candidates for AI/human screening.
+#
+# This does NOT decide topical relevance (on-topic for GenAI industrial
+# copilots vs not) -- that is a screening decision (Phase 10/11), not an
+# eligibility rule. D1 is purely: is this a peer-reviewed work, in scope by
+# year, and not a duplicate/merged-away record.
+
+d1_eligibility:
+  # publication_status values that qualify for D1 without any exception.
+  # book_chapter_peer_reviewed is deliberately NOT included by default --
+  # book chapters vary too widely in editorial/peer-review rigor to include
+  # automatically; a specific one can still enter D1 via a documented
+  # exception (review_pipeline/src/screening/eligibility.py).
+  allowed_publication_statuses:
+    - peer_reviewed_journal
+    - peer_reviewed_conference
+
+  temporal_scope:
+    # Primary corpus is 2023+, matching this manuscript's established scope
+    # (see the project root CLAUDE.md). Pre-2023 works are never silently
+    # included by this rule -- each one requires its own documented_exceptions
+    # row (record-specific rule_text + justification + approved_by), never a
+    # blanket "foundational works" list baked into config, since deciding
+    # what counts as foundational is a human methodological judgment call.
+    primary_from_year: 2023
+
+exclusion_reasons:
+  # Reasons this Phase 9 mechanical filter itself can assign.
+  - not_peer_reviewed
+  - before_temporal_scope
+  - duplicate_or_merged
+  # Reasons assigned by LATER phases, listed here only so the controlled
+  # vocabulary is documented in one place -- Phase 9 code never sets these.
+  - off_topic                        # AI/human screening, Phase 10/11
+  - inaccessible_fulltext_required   # fulltext verification, Phase 14

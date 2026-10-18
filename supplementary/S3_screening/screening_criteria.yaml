@@ -1,0 +1,62 @@
+# Phase 10-11 screening criteria (AI + human). RQs and scope are the
+# manuscript's own, as stated in the project root CLAUDE.md -- not invented
+# for this pipeline. Screening judges TOPICAL fit only; peer-review status
+# and temporal scope are already enforced mechanically at D1 (Phase 9).
+
+research_questions:
+  RQ1: "Evolution from conversational AI to GenAI-based industrial copilots; enabling technologies."
+  RQ2: "Reference architecture of industrial copilots (components, layers, interfaces)."
+  RQ3: "Application domains of industrial copilots in chemical, process, and manufacturing engineering contexts."
+  RQ4: "Validation, deployment, and future research challenges for industrial copilots."
+
+scope: >
+  Generative-AI-based industrial copilots (LLM, foundation-model, or agentic-AI
+  systems assisting an engineering task) in chemical, process, or manufacturing
+  engineering contexts, OR general-industrial-copilot / general-agentic-AI
+  literature usable as RQ2/RQ3 comparison context (not chemical/process-specific
+  itself, but directly informing the reference-architecture or cross-domain
+  application discussion).
+
+inclusion_criteria:
+  - Describes, evaluates, or surveys a GenAI/LLM/foundation-model-based system,
+    agent, or copilot applied to (or explicitly proposed for) an industrial or
+    engineering task.
+  - Is directly relevant to at least one of RQ1-RQ4 above.
+  # Added 2026-08-30, after 250 records had been screened (those were re-screened
+  # under the amended criteria; see docs/SEARCH_AND_SNOWBALLING.md Decision 7.3).
+  # The thesis this review supports proposes constructing a benchmark generator
+  # for training industrial copilots, so the review must be able to state -- and
+  # a reader must be able to falsify -- whether such generators already exist.
+  # That makes benchmark, evaluation and training-data-construction work part of
+  # the object of study, not background.
+  - Constructs, generates, or evaluates benchmarks, task suites, evaluation
+    environments, or training/fine-tuning data for LLM/agentic systems, in an
+    industrial, process, or engineering context.
+  # Peer-review status and 2023+ temporal scope are NOT screening's job -- both
+  # are already enforced mechanically before a record reaches D1 (Phase 9).
+
+# Reasons AI/human screening may assign (decision='exclude'). Distinct from
+# config/inclusion_rules.yaml's mechanical D1 exclusion reasons -- these are
+# topical judgments, not publication-status/temporal-scope facts.
+exclusion_reasons:
+  - off_topic: "Not about a GenAI/LLM/foundation-model-based system, or not an industrial/engineering application."
+  - not_original_research: "Editorial, erratum, correction notice, conference front-matter, or similar non-substantive item."
+  - wrong_technology: "AI/ML system described is not generative (e.g. purely classical ML/statistical, no LLM/foundation-model/generative component)."
+  # Added 2026-08-30. Cross-domain agent benchmarks (coding, web browsing,
+  # general reasoning) stay OUT of the corpus by explicit scope decision, but
+  # they are the comparison class for the review's claim that industrial-copilot
+  # benchmark generation is absent. Giving them their own reason keeps them
+  # countable from the decision log -- "N cross-domain agent benchmarks were
+  # retrieved and excluded" is reportable in the methods without widening the
+  # synthesis.
+  - benchmark_other_domain: "Benchmark, evaluation harness, or training-data work for LLM/agentic systems outside industrial/process/engineering domains (e.g. software-engineering, web-browsing, or general-reasoning agent benchmarks)."
+
+screening_decision_policy:
+  # AI screening only ever writes decision_type='ai' rows (see
+  # src/screening/ai_screening.py) -- it structurally cannot set
+  # final_screening_decision, so a low-confidence or 'uncertain' AI call can
+  # never become an irreversible exclusion on its own; a human/adjudication
+  # step (Phase 11-13) reviews anything AI wasn't confident about before any
+  # decision is treated as final.
+  ai_may_set_decision_types: ["ai"]
+  never_auto_final: true

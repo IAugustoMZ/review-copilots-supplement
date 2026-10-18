@@ -1,0 +1,13 @@
+-- Phase 11 extension: per-category H/M/L levels for multi-value classification
+-- dimensions (domain, technology, application, architectural_role,
+-- validation_focus). classifications_human already stores one row per
+-- (record_id, dimension, coder) with `label` as a JSON array for multi-label
+-- dimensions (see src/validation/agreement.py's `_is_multi_label` convention,
+-- and src/validation/adjudication.py's `_latest_classification`, which both
+-- assume exactly one row per (record_id, dimension) -- so per-category level
+-- cannot be modeled as extra rows without breaking those. The existing
+-- `confidence` column is a single value per row and can't hold one level per
+-- selected category, hence this new column: a JSON object mapping each
+-- selected category to the level the reviewer put it at, e.g.
+-- {"chemical_engineering": "high", "manufacturing": "medium"}.
+ALTER TABLE classifications_human ADD COLUMN label_levels_json TEXT;
