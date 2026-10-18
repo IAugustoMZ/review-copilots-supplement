@@ -26,4 +26,5 @@ keywords:
   - chemical engineering
   - process engineering
   - manufacturing
-# After publishing on Zenodo, add:  doi: 10.5281/zenodo.XXXXXXX
+doi: 10.5281/zenodo.23453961
+repository-code: "https://github.com/IAugustoMZ/review-copilots-supplement"

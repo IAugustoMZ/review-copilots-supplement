@@ -2,6 +2,7 @@
 
 [![Code: MIT](https://img.shields.io/badge/code-MIT-blue.svg)](LICENSE)
 [![Data: CC BY 4.0](https://img.shields.io/badge/data-CC%20BY%204.0-lightgrey.svg)](LICENSE-data)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.23453961.svg)](https://doi.org/10.5281/zenodo.23453961)
 
 Companion archive of the article
 
@@ -70,7 +71,11 @@ Candidate records were retrieved through open APIs and citation snowballing, the
 
 ## Citing
 
-Please cite the article and, for the data and code, this archive. Metadata for both is in [`CITATION.cff`](CITATION.cff). A Zenodo DOI will be added here once the archive is published.
+Please cite the article and, for the data and code, this archive:
+
+> Zelioli, I. A. M., Spogis, N., & Mariano, A. P. (2026). *Supplementary materials for: Generative AI Copilots in Chemical, Process, and Manufacturing Engineering: A Structured Review of Validation Practices and the Case for Shared, Domain-Specific Benchmarks* (v1.0.0) [Data set]. Zenodo. https://doi.org/10.5281/zenodo.23453961
+
+Metadata for both is in [`CITATION.cff`](CITATION.cff). The DOI above is the version DOI of release v1.0.0; the concept DOI [10.5281/zenodo.23453960](https://doi.org/10.5281/zenodo.23453960) always resolves to the latest version.
 
 ## Licences
 
